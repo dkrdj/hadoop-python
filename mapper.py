@@ -2,7 +2,7 @@ import sys
 from spleeter.separator import Separator
 from pydub import AudioSegment
 
-MUSIC = "/user/j8a603/music/"
+MUSIC = "hdfs://ip-172-26-0-222.ap-northeast-2.compute.internal:9000/user/j8a603/music/"
 
 # 입력 파일 경로
 input_path = "hdfs://ip-172-26-0-222.ap-northeast-2.compute.internal:9000/user/j8a603/input"
