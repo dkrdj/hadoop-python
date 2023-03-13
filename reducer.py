@@ -2,3 +2,5 @@
 def reducer():
     print("여긴 리듀서")
     pass
+
+reducer()

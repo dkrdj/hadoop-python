@@ -34,3 +34,5 @@ def mapper():
     for line in sys.stdin:
         mp3_path = line.strip()
         separate_vocals(MUSIC + mp3_path, output_path)
+
+mapper()
