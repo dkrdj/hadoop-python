@@ -5,10 +5,10 @@ from pydub import AudioSegment
 MUSIC = "hdfs://ip-172-26-0-222.ap-northeast-2.compute.internal:9000/user/j8a603/music/"
 
 # 입력 파일 경로
-input_path = "/input"
+input_path = "hdfs://ip-172-26-0-222.ap-northeast-2.compute.internal:9000/user/j8a603/input"
 
 # 출력 파일 경로
-output_path = "/output"
+output_path = "hdfs://ip-172-26-0-222.ap-northeast-2.compute.internal:9000/user/j8a603/output"
 
 # 보컬 분리를 위한 함수
 def separate_vocals(mp3_path, dest_dir, num_stems=2):
