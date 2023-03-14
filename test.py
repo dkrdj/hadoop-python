@@ -1,5 +1,5 @@
-import os
+import subprocess
 line = "iu.mp3"
 input_path ="local_input"
 
-os.system(f'echo {line} {input_path}')
+subprocess.run(["echo", line, input_path], check=True)
