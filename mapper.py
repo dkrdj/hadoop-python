@@ -1,27 +1,45 @@
-#encoding : utf-8
-
-from io import BytesIO
 from pydub import AudioSegment
-from hdfs import InsecureClient
-import os
-import spleeter
-import sys
+from spleeter.separator import Separator
+import os, shutil, sys
 
-def separate_vocals(mp3_data):
-    
+def separate_vocals(input_path, output_dir, num_stems=2):
+    # 음원 파일 이름(~.mp3)
+    file_name = input_path.split('/')[-1]
 
-    # BytesIO 객체에 mp3 데이터를 쓴 후, AudioSegment 객체로 변환합니다.
-    mp3_audio = AudioSegment.from_file(BytesIO(mp3_data), format="mp3")
-    
-    # AudioSegment 객체를 wav 데이터로 변환합니다.
-    wav_data = mp3_audio.export(format="wav").read()
+    separator = Separator(f"spleeter:{num_stems}stems")
 
-    # spleeter를 사용하여 보컬을 분리합니다.
-    separator = spleeter.Separator(f"spleeter:2stems")
-    waveform, _ = spleeter.io.load_wav_from_buffer(wav_data)
-    prediction = separator.separate(waveform)
+    # mp3 파일을 wav 파일로 변환하여 저장함
+    wav_path = input_path.replace(".mp3", ".wav")
+    sound = AudioSegment.from_file(input_path, format="mp3")
+    sound.export(wav_path, format="wav")
+
+    # 가수 이름
+    singer = file_name.split('-')[0].strip()
+
+    # 결과를 저장할 가수 폴더 경로
+    new_root = os.path.join(output_dir, singer)
+    # 보컬 파일 이름
+    new_wav_path = f'{new_root}/{file_name[:-4]}.wav'
+
+    # 가수 폴더 없다면 생성
+    if not os.path.exists(new_root):
+        os.makedirs(new_root)
+
+    # 목소리와 악기음 분리
+    separator.separate_to_file(wav_path, output_dir)
     
+    # 목소리 파일을 지정한 경로로 이동 시키기
+    shutil.move(f'{output_dir}/{file_name[:-4]}/vocals.wav', new_wav_path)
+
+    # 분리한 파일(목소리와 악기음) 삭제
+    shutil.rmtree(f'{output_dir}/{file_name[:-4]}')
+
+
+input_dir = 'local_input'
+output_dir = 'local_output'
 
 for line in sys.stdin:
-    print(line)
-    # separate_vocals(line)
+    os.system('hdfs dfs -get music/{line} {input_dir}')
+    input_path = os.path.join(output_dir, line)
+    separate_vocals(input_path, output_dir)
+    os.system(f'hdfs dfs -put {output_dir} output/')
