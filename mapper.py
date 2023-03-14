@@ -1,5 +1,5 @@
 import sys  #시스템 패키지
-sys.path.append( '/home/j8a603/.local/lib/python3.8/site-packages')
+sys.path.append('./')
 
 from pydub import AudioSegment
 from spleeter.separator import Separator
