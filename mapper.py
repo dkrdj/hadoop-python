@@ -17,7 +17,7 @@ def separate_vocals(file_name):
     wav_data = mp3_audio.export(format="wav").read()
 
     # spleeter를 사용하여 보컬을 분리합니다.
-    separator = spleeter.Separator('spleeter:2stems')
+    separator = spleeter.Separator(f"spleeter:2stems")
     waveform, _ = spleeter.io.load_wav_from_buffer(wav_data)
     prediction = separator.separate(waveform)
     
