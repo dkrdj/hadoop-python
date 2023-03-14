@@ -1,18 +1,27 @@
-import sys
+#encoding : utf-8
+
+from io import BytesIO
+from pydub import AudioSegment
+from hdfs import InsecureClient
 import os
+import spleeter
+import sys
 
-# 파일 경로
-path = sys.argv[1]
+def separate_vocals(mp3_data):
+    
 
-# 파일 목록 가져오기
-files = os.listdir(path)
+    # BytesIO 객체에 mp3 데이터를 쓴 후, AudioSegment 객체로 변환합니다.
+    mp3_audio = AudioSegment.from_file(BytesIO(mp3_data), format="mp3")
+    
+    # AudioSegment 객체를 wav 데이터로 변환합니다.
+    wav_data = mp3_audio.export(format="wav").read()
 
-# 파일 처리
-for file in files:
-    # 파일 확장자가 mp3인 경우에만 처리
-    if file.endswith(".mp3"):
-        # 파일을 읽어서 처리
-        with open(os.path.join(path, file), 'r') as f:
-            for line in f:
-                # separate_vocals(line) 함수 호출
-                print(line)
+    # spleeter를 사용하여 보컬을 분리합니다.
+    separator = spleeter.Separator(f"spleeter:2stems")
+    waveform, _ = spleeter.io.load_wav_from_buffer(wav_data)
+    prediction = separator.separate(waveform)
+    
+
+for line in sys.stdin:
+    print(line)
+    # separate_vocals(line)
