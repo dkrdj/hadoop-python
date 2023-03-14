@@ -40,6 +40,6 @@ output_dir = 'local_output'
 
 for line in sys.stdin:
     os.system('hdfs dfs -get music/{line} {input_dir}')
-    input_path = os.path.join(output_dir, line).strip()
+    input_path = os.path.join(input_dir, line).strip()
     separate_vocals(input_path, output_dir)
     os.system(f'hdfs dfs -put {output_dir} output/')
