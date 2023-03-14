@@ -42,6 +42,6 @@ for line in sys.stdin:
     if not os.path.exists(input_dir):
         os.makedirs(input_dir)
     input_path = os.path.join(input_dir, line).strip()
-    os.system(f'hdfs dfs -copyToLocal music/{line} {input_path}')
-    separate_vocals(input_path, output_dir)
+    os.system(f'hdfs dfs -copyToLocal /user/j8a603/music/{line} /{input_path}')
+    separate_vocals('/'+ input_path, output_dir)
     os.system(f'hdfs dfs -put {output_dir} output/')
