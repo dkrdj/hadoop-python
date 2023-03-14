@@ -1,33 +1,18 @@
-#encoding : utf-8
-
-from io import BytesIO
-from pydub import AudioSegment
-from hdfs import InsecureClient
-import os
-import spleeter
 import sys
+import os
 
-def separate_vocals(file_name):
-    hdfs_client = InsecureClient('hdfs://ip-172-26-0-222.ap-northeast-2.compute.internal:9000', user='j8a603')
-    with hdfs_client.read('/user/j8a603/music/'+file_name) as reader:
-        mp3_data = reader.read()
+# 파일 경로
+path = sys.argv[1]
 
-    # BytesIO 객체에 mp3 데이터를 쓴 후, AudioSegment 객체로 변환합니다.
-    mp3_audio = AudioSegment.from_file(BytesIO(mp3_data), format="mp3")
-    
-    # AudioSegment 객체를 wav 데이터로 변환합니다.
-    wav_data = mp3_audio.export(format="wav").read()
+# 파일 목록 가져오기
+files = os.listdir(path)
 
-    # spleeter를 사용하여 보컬을 분리합니다.
-    separator = spleeter.Separator(f"spleeter:2stems")
-    waveform, _ = spleeter.io.load_wav_from_buffer(wav_data)
-    prediction = separator.separate(waveform)
-    
-    # 분리된 보컬 파일을 저장합니다.
-    for i, stem in enumerate(prediction):
-        with hdfs_client.write('/user/j8a603/output/'+os.path.splitext(file_name)[0]+'_vocals{}.wav'.format(i+1)) as writer:
-            spleeter.io.save_wav(stem, writer)
-
-for line in sys.stdin:
-    print(line)
-    # separate_vocals(line)
+# 파일 처리
+for file in files:
+    # 파일 확장자가 mp3인 경우에만 처리
+    if file.endswith(".mp3"):
+        # 파일을 읽어서 처리
+        with open(os.path.join(path, file), 'r') as f:
+            for line in f:
+                # separate_vocals(line) 함수 호출
+                print(line)
