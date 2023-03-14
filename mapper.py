@@ -37,7 +37,10 @@ def separate_vocals(input_path, output_dir, num_stems=2):
 
 input_dir = 'local_input'
 output_dir = 'local_output'
-
+os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/ffmpeg'
+os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/ffprob'
+os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/pydub'
+os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/spleeter'
 for line in sys.stdin:
     input_path = os.path.join(input_dir, line).strip()
     
