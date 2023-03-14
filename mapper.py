@@ -1,6 +1,9 @@
+import sys  #시스템 패키지
+sys.path.append( '/home/j8a603/.local/lib/python3.8/site-packages')
+
 from pydub import AudioSegment
 from spleeter.separator import Separator
-import os, shutil, sys, subprocess
+import os, shutil, subprocess
 
 def separate_vocals(input_path, output_dir, num_stems=2):
     # 음원 파일 이름(~.mp3)
@@ -37,10 +40,6 @@ def separate_vocals(input_path, output_dir, num_stems=2):
 
 input_dir = 'local_input'
 output_dir = 'local_output'
-os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/ffmpeg'
-os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/ffprob'
-os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/pydub'
-os.environ['PATH'] += ':/home/j8a603/.local/lib/python3.8/site-packages/spleeter'
 
 for line in sys.stdin:
     
