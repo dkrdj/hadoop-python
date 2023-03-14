@@ -1,3 +1,5 @@
+#encoding : utf-8
+
 from io import BytesIO
 from pydub import AudioSegment
 from hdfs import InsecureClient
