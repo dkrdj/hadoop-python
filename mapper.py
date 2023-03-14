@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 from spleeter.separator import Separator
-import os, shutil, sys
+import os, shutil, sys, subprocess
 
 def separate_vocals(input_path, output_dir, num_stems=2):
     # 음원 파일 이름(~.mp3)
@@ -39,9 +39,8 @@ input_dir = 'local_input'
 output_dir = 'local_output'
 
 for line in sys.stdin:
-    if not os.path.exists(input_dir):
-        os.makedirs(input_dir)
     input_path = os.path.join(input_dir, line).strip()
-    os.system(f'hdfs dfs -copyToLocal /user/j8a603/music/{line} /{input_path}')
-    separate_vocals('/'+ input_path, output_dir)
+    hdfs_path = f"music/{line}"
+    subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_path], check=True)
+    separate_vocals(input_path, output_dir)
     os.system(f'hdfs dfs -put {output_dir} output/')
