@@ -4,7 +4,6 @@ from hdfs import InsecureClient
 import os
 import spleeter
 import sys
-import codecs
 
 def separate_vocals(file_name):
     hdfs_client = InsecureClient('hdfs://ip-172-26-0-222.ap-northeast-2.compute.internal:9000', user='j8a603')
@@ -27,5 +26,5 @@ def separate_vocals(file_name):
         with hdfs_client.write('/user/j8a603/output/'+os.path.splitext(file_name)[0]+'_vocals{}.wav'.format(i+1)) as writer:
             spleeter.io.save_wav(stem, writer)
 
-for line in codecs.getreader('utf-8')(sys.stdin.buffer):
+for line in sys.stdin:
     separate_vocals(line)
