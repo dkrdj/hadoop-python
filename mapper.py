@@ -40,8 +40,13 @@ output_dir = 'local_output'
 
 for line in sys.stdin:
     input_path = os.path.join(input_dir, line).strip()
+    
     hdfs_path = os.path.join('/user/j8a603/music', line).strip()
-    subprocess.run(["rm", input_path], check=True)
+
+    if not os.path.exists(input_dir):
+        os.makedirs(input_dir)
+    subprocess.run(["rm", "-r", input_dir], check=True)
+
     subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_dir], check=True)
     separate_vocals(input_path, output_dir)
     subprocess.run(["hdfs", "dfs", "-put", "music_output", output_dir+'/'], check=True)
