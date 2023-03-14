@@ -43,4 +43,4 @@ for line in sys.stdin:
     hdfs_path = os.path.join('music', line).strip()
     subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_dir], check=True)
     separate_vocals(input_path, output_dir)
-    os.system(f'hdfs dfs -put {output_dir} output/')
+    subprocess.run(["hdfs", "dfs", "-put", "music_output", output_dir+'/'], check=True)
