@@ -46,7 +46,7 @@ for line in sys.stdin:
     if not os.path.exists(input_dir):
         os.makedirs(input_dir)
     subprocess.run(["rm", "-r", input_dir], check=True)
-
+    os.makedirs(input_dir)
     subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_dir+'/'], check=True)
     separate_vocals(input_path, output_dir)
     subprocess.run(["hdfs", "dfs", "-put", "music_output", output_dir+'/'], check=True)
