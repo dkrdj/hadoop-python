@@ -40,7 +40,7 @@ output_dir = 'local_output'
 
 for line in sys.stdin:
     input_path = os.path.join(input_dir, line).strip()
-    hdfs_path = f"music/{line}"
-    subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_path], check=True)
+    hdfs_path = os.path.join('music', line).strip()
+    subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_dir], check=True)
     separate_vocals(input_path, output_dir)
     os.system(f'hdfs dfs -put {output_dir} output/')
