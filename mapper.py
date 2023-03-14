@@ -39,6 +39,8 @@ input_dir = 'local_input'
 output_dir = 'local_output'
 
 for line in sys.stdin:
+    if not os.path.exists(input_dir):
+        os.makedirs(input_dir)
     os.system('hdfs dfs -get music/{line} {input_dir}')
     input_path = os.path.join(input_dir, line).strip()
     separate_vocals(input_path, output_dir)
