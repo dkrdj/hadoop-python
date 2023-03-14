@@ -1,9 +1,8 @@
-import sys  #시스템 패키지
-sys.path.append('./')
-
+import sys, os, shutil, subprocess #시스템 패키지
+subprocess.run(["hdfs", "dfs", "-get","/user/j8a603/lib", "lib"], check=True)
+sys.path.append('lib')
 from pydub import AudioSegment
 from spleeter.separator import Separator
-import os, shutil, subprocess
 
 def separate_vocals(input_path, output_dir, num_stems=2):
     # 음원 파일 이름(~.mp3)
