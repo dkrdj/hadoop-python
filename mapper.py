@@ -29,4 +29,5 @@ def separate_vocals(file_name):
             spleeter.io.save_wav(stem, writer)
 
 for line in sys.stdin:
-    separate_vocals(line)
+    print(line)
+    # separate_vocals(line)
