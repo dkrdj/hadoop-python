@@ -15,6 +15,7 @@ path_list.append(new_path)
 # PATH 목록을 다시 문자열로 변환하여 환경 변수에 저장
 os.environ["PATH"] = os.pathsep.join(path_list)
 sys.path.append(new_path)
+print(os.environ["PATH"])
 
 def separate_vocals(input_path, output_dir, num_stems=2):
     # 음원 파일 이름(~.mp3)
