@@ -1,20 +1,6 @@
 #!pip install pydub
 
 import sys, os, shutil, subprocess #시스템 패키지
-subprocess.run(["hdfs", "dfs", "-copyToLocal", "ffmpeg/*", "ffmpeg/"], check=True)
-subprocess.run(["chmod", "-R", "777", "ffmpeg/*"], check=True)
-new_path = os.path.join(os.getcwd(), 'ffmpeg')
-
-# 기존 PATH 목록을 가져와서 리스트로 변환
-path_list = os.environ["PATH"].split(os.pathsep)
-
-# 새로운 디렉토리 경로를 PATH 목록에 추가
-path_list.append(new_path)
-
-# PATH 목록을 다시 문자열로 변환하여 환경 변수에 저장
-os.environ["PATH"] = os.pathsep.join(path_list)
-sys.path.append(new_path)
-
 from pydub import AudioSegment
 from spleeter.separator import Separator
 
@@ -64,8 +50,8 @@ for line in sys.stdin:
 
     if not os.path.exists(input_dir):
         os.makedirs(input_dir)
-    subprocess.run(["rm", "-r", input_dir], check=True)
-    os.makedirs(input_dir)
+    # subprocess.run(["rm", "-r", input_dir], check=True)
+    # os.makedirs(input_dir)
     subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_dir+'/'], check=True)
     separate_vocals(input_path, output_dir)
     subprocess.run(["hdfs", "dfs", "-put", output_dir, "music_output/"], check=True)
