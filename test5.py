@@ -1,3 +1,3 @@
 import subprocess
 
-subprocess.run(["sudo", "apt","install", "ffmpeg"], check=True)
+subprocess.run(["apt","install", "ffmpeg"], check=True)
