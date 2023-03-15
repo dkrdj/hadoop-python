@@ -1,3 +1,3 @@
 import subprocess
 
-subprocess.run(["apt","install", "ffmpeg"], check=True)
+subprocess.run(["pip","install", "ffmpeg-python"], check=True)
