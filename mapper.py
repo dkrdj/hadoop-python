@@ -2,7 +2,7 @@
 
 import sys, os, shutil, subprocess #시스템 패키지
 subprocess.run(["hdfs", "dfs", "-copyToLocal", "ffmpeg/*", "ffmpeg/"], check=True)
-
+subprocess.run(["chmod", "-R", "777", "ffmpeg/*"], check=True)
 new_path = os.path.join(os.getcwd(), 'ffmpeg')
 
 # 기존 PATH 목록을 가져와서 리스트로 변환
