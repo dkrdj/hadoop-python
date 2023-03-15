@@ -1,7 +1,6 @@
 import sys, os
 
-new_path = os.getcwd()
-new_path = os.path.join(new_path, 'ffmpeg-python')
+new_path = os.path.join(os.getcwd(), 'ffmpeg-python')
 
 # 기존 PATH 목록을 가져와서 리스트로 변환
 path_list = os.environ["PATH"].split(os.pathsep)

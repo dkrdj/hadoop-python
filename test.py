@@ -4,6 +4,18 @@ from spleeter.separator import Separator
 
 from multiprocessing import freeze_support
 
+new_path = os.path.join(os.getcwd(), 'ffmpeg')
+
+# 기존 PATH 목록을 가져와서 리스트로 변환
+path_list = os.environ["PATH"].split(os.pathsep)
+
+# 새로운 디렉토리 경로를 PATH 목록에 추가
+path_list.append(new_path)
+
+# PATH 목록을 다시 문자열로 변환하여 환경 변수에 저장
+os.environ["PATH"] = os.pathsep.join(path_list)
+sys.path.append(new_path)
+
 def separate_vocals(input_path, output_dir, num_stems=2):
     # 음원 파일 이름(~.mp3)
     file_name = input_path.split('/')[-1]
