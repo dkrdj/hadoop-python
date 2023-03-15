@@ -7,7 +7,7 @@ def which(program):
     # Add .exe program extension for windows support
     if os.name == "nt" and not program.endswith(".exe"):
         program += ".exe"
-
+    print(program)
     envdir_list = [os.curdir] + os.environ["PATH"].split(os.pathsep)
     for envdir in envdir_list:
         program_path = os.path.join(envdir, program)
