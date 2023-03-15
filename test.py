@@ -37,8 +37,8 @@ def separate_vocals(input_path, output_dir, num_stems=2):
     # 분리한 파일(목소리와 악기음) 삭제
     shutil.rmtree(f'{output_dir}/{file_name[:-4]}')
     
-    path = input_path.split('/')[0]
-    shutil.rmtree(input_path.split('/')[0])
+    # path = input_path.split('/')[0]
+    # shutil.rmtree(input_path.split('/')[0])
     print("필요없는 파일 삭제 완료")
 
 if __name__ == '__main__':
