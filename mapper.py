@@ -34,24 +34,29 @@ def separate_vocals(input_path, output_dir, num_stems=2):
     shutil.move(f'{output_dir}/{file_name[:-4]}/vocals.wav', new_wav_path)
     # 분리한 파일(목소리와 악기음) 삭제
     shutil.rmtree(f'{output_dir}/{file_name[:-4]}')
-    
-    path = input_path.split('/')[0]
+    # 원본 파일 삭제
     shutil.rmtree(input_path.split('/')[0])
 
 
 input_dir = 'local_input'
-output_dir = 'local_output'
+output = 'vocals'
+final_result = "/user/j8a603/vocal/"
 
 for line in sys.stdin:
-    
-    input_path = os.path.join(input_dir, line).strip()
-    
+    #10cm/10cm - Condition.mp3
+
+    input_path = os.path.join(input_dir, line.split('/')[-1]).strip()
+    #local_input/10cm - Condition.mp3
+
     hdfs_path = os.path.join('/user/j8a603/music', line).strip()
+    #/user/j8a603/music/10cm/10cm - Condition.mp3
 
     if not os.path.exists(input_dir):
         os.makedirs(input_dir)
-    # subprocess.run(["rm", "-r", input_dir], check=True)
-    # os.makedirs(input_dir)
+    subprocess.run(["rm", "-r", input_dir], check=True)
+    os.makedirs(input_dir)
     subprocess.run(["hdfs", "dfs", "-copyToLocal", hdfs_path, input_dir+'/'], check=True)
-    separate_vocals(input_path, output_dir)
-    subprocess.run(["hdfs", "dfs", "-put", output_dir, "music_output/"], check=True)
+    #local_input/10cm - Condition.mp3
+
+    separate_vocals(input_path, output)
+    subprocess.run(["hdfs", "dfs", "-put", output, final_result], check=True)

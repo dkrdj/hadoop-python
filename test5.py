@@ -1,3 +1,7 @@
-import subprocess
+import os
 
-subprocess.run(["pip","install", "ffmpeg-python"], check=True)
+file = open("example.txt", 'w', encoding='utf-8')
+for foldername in os.listdir("../song"):
+    for filename in os.listdir("../song/"+foldername):
+        file.write(foldername+'/'+filename+'\n')
+file.close()
